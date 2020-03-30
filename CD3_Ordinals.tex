@@ -1,0 +1,137 @@
+\documentclass[UTF8, 9pt, a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{longtable,caption}
+\usepackage{multicap}
+\usepackage{tabu}
+\usepackage{amsmath}
+\usepackage[left = 15mm, right = 15mm, top = 25mm, bottom= 20mm]{geometry}
+\usepackage{stmaryrd, amssymb}
+\usepackage{comment}
+\usepackage{changepage}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning} % Necessary to use right=5cm of A
+\usetikzlibrary{arrows,automata}
+\newcommand{\ksec}[2]{\noindent \textbf{\large #1} #2\par}
+\newcommand{\ksolve}[1]{\noindent\textbf{\large Solution #1: }\par}
+\newcommand{\arithminus}{\dot{\ \rule[2.5pt]{6pt}{0.5pt}\ }}
+\newcommand{\smallarithminus}{\dot{\rule[1pt]{3pt}{0.5pt}}}
+\newcommand{\absminus}{\dot{\ \rule[2.5pt]{3.8pt}{0.6pt}\ }\!\!\!\!\!\dot{\ \rule[2.5pt]{3.8pt}{0.6pt}\ }}
+
+\begin{document}
+	
+	\section{理解朴素集合论}	
+	
+	\ksec{序数的定义}{}
+	
+	$ \begin{array}{ll}
+	 0 &= \varnothing \\
+	 1 &= \{ \varnothing \}\\
+	 2 &= \{ \varnothing,\ \{\varnothing\} \}\\
+	 3 &= \{ \varnothing,\ \{\varnothing\},\ \{ \varnothing,\ \{\varnothing\} \} \}\\
+	 4 &= \{ \varnothing,\ \{\varnothing\},\ \{ \varnothing,\ \{\varnothing\} \}, \ \{ \varnothing,\ \{\varnothing\},\ \{ \varnothing,\ \{\varnothing\} \} \}\ \}\\
+	 5 &= \{ \varnothing,\ \{\varnothing\},\ \{ \varnothing,\ \{\varnothing\} \}, \ \{ \varnothing,\ \{\varnothing\},\ \{ \varnothing,\ \{\varnothing\} \} \},\ \{ \varnothing,\ \{\varnothing\},\ \{ \varnothing,\ \{\varnothing\} \}, \ \{ \varnothing,\ \{\varnothing\},\ \{ \varnothing,\ \{\varnothing\} \} \}\}\ \}\\
+	 ......
+	\end{array} $
+	
+	\vspace{0.5cm}
+	
+	\ksec{三歧性: }{$\forall \alpha:\  \forall \beta \in \alpha:\ \gamma \in \alpha :\ (\beta = \gamma) \lor (\gamma \in \beta) \lor (\beta \in \gamma)$}
+	
+	\ksec{传递性：}{$ \forall \alpha\ \beta\ \gamma:\ \alpha \in \beta \in \gamma \implies \alpha \subseteq \beta \subseteq \gamma $}
+	
+	\ksec{良基性: }{$ \forall A \subseteq \alpha:\ A \neq \varnothing \implies (\exists \beta \in A:\ \forall \gamma \in A:\ \gamma \notin \beta) $}
+	
+	\vspace{0.5cm}
+	
+	
+	\ksec{引理1: }{$ \beta \in \alpha \implies \beta \cup \{ \beta \} \subseteq \alpha $}
+	由传递性：$\beta \subseteq \alpha $，故$ \{\beta\} \subseteq \alpha $，故$ \beta\cup \{\beta\} \subseteq \alpha $
+	
+	\vspace{0.5cm}
+	
+	\ksec{引理2: }{$ \beta \notin \alpha\cup\{\alpha\} \implies \alpha \in \beta $}
+	由pred: $ \beta \neq \alpha  $且$ \beta \notin \alpha $, 由三歧性，$ \alpha \in \beta $
+	
+	\vspace{0.5cm}
+	
+	\ksec{引理3: }{$ \alpha \in \beta \land \beta \in \gamma \implies \alpha \in \gamma $}
+	如何简洁明快地只用三个性质证明之？
+	
+	\vspace{0.5cm}
+	
+	\ksec{极小元包含引理：}{$ \Gamma = \{ \gamma \mid \gamma \notin \alpha \} $中的极小元$ \gamma_0 \subseteq \alpha$}
+	易知$ \forall \gamma' \in \gamma_0 :\ \gamma' \in \alpha$, 否则$ \gamma_0 $不是极小的。由集合的定义知$ \gamma_0 \subseteq \alpha $
+	
+	\ksec{推论}{ $ \Gamma = \{ \gamma \mid \gamma \notin \alpha \} $中的极小元$ \gamma_0 = \alpha$ }
+	\vspace{0.5cm}
+	
+	\ksec{引理3}{}
+	
+	
+	\ksec{证：}{$ \beta \in \alpha \implies (\beta \cup \{\beta\} \in \alpha)\ \lor\  (\beta\cup\{\beta\} = \alpha)$}
+	\ksolve{}
+	\begin{itemize}
+		\item $ \beta \cup \{\beta\} = \alpha $, 证毕
+		\item $ \beta \cup \{\beta\} \neq \alpha $, 则对集合$\Gamma = \{ \gamma \mid \gamma \in \alpha \land \gamma \notin \beta \cup \{\beta\} \} $, 存在极小的$ \gamma_0 $, 使得对任意$ \gamma \in \Gamma $, $ \gamma \notin \gamma_0 $
+		\begin{itemize}
+			\item $ \gamma_0 = \beta \cup \{\beta\} $: 由$ \gamma_0 \in \alpha $, 得$ \beta \cup \{\beta\} \in \alpha $, 证毕
+			\item $ \gamma_0 \neq \beta \cup \{\beta\} $: 由三歧性得$ \beta \cup \{\beta\} \in \gamma_0 $。由$ \gamma_0 \in \alpha $, 知$ \beta \cup \{\beta\}\in \alpha $。故$ \Gamma $中存在更小元$ \beta \cup \{\beta\} $, 与$ \gamma_0 $极小矛盾。
+		\end{itemize}
+	\end{itemize}\par
+	
+
+	\vspace{0.5cm}
+	
+	
+	\ksec{性质2：}{若序数$ \alpha \subset \beta$, 则$ \alpha \in \beta $, 设$ \alpha = 2 $, $\beta = 5$}
+	\ksolve{}
+	$\begin{array}{l}
+		\exists \texttt{极小的} \gamma \in 5 \cup \{5\} = 6, 2 \subseteq \gamma :\\
+		
+ 		\quad 1. \texttt{假设极小元}\gamma\texttt{就是}\beta, \texttt{即}\forall \gamma' \in 5:\ \alpha \subsetneq \gamma' \\
+ 		
+ 		\qquad  \texttt{对我们假设的}\alpha, \beta\texttt{显然不是}\\
+ 		
+		\quad 2. \exists \gamma' \in \beta:\ \alpha \subseteq \gamma\\
+		
+		\qquad \texttt{则}\{ \gamma' \mid \gamma' \in \beta \land \alpha \subseteq \gamma' \} = \{ 2, 3, 4, 5 \} \subseteq \beta, \texttt{该集合非空，故一定有最小元}\gamma_x, \texttt{故}\gamma_x\texttt{也是}\beta\cup \{\beta\}\texttt{中的最小元}, \texttt{为}2\\
+		
+		1. \texttt{若}\alpha=\gamma, \texttt{则}\\
+		
+		\quad (a) \gamma \in \beta : \alpha \in \beta \texttt{证毕}\\
+		\quad (b) \gamma = \beta : \texttt{与}\alpha \subset \beta \texttt{矛盾}\\
+		
+		2. \texttt{若}\alpha \neq \gamma, \texttt{则}\exists \gamma' \in \gamma:\ \forall \alpha' \in \alpha:\ \alpha' \in \gamma'.\ \texttt{故}\alpha \subseteq \gamma'. \texttt{又知}\gamma' \in \gamma, \texttt{又有}\gamma' \in \beta \cup \{\beta\}, \texttt{故找到了一个更小的}\gamma', \texttt{与} \gamma\texttt{极小矛盾}\\
+	\end{array} $\par
+	\ksec{引理：}{$ \alpha \in \beta \Longleftrightarrow \alpha \subset \beta$ }
+	\vspace{0.5cm}
+	
+	\ksec{序数可比较性: }{$\forall \beta \ \alpha:\ \beta \notin \alpha \implies \beta = \alpha \lor \alpha \in \beta $}
+	本性质与三歧性有何区别？\par
+	\ksolve{}
+	不妨定义$ \Gamma = \{ \gamma \mid \gamma \notin \alpha \land \gamma \in \beta \cup \{\beta\}\} $, 设$ \Gamma $的极小元为$ \gamma_0 $, (同理极小元引理)易知$ \gamma_0 \subseteq \alpha $.
+	\begin{itemize}
+		\item $ \gamma_0 = \alpha $: 则$ \alpha \in \beta \cup \{\beta\} $, 即$ \beta = \alpha \lor \alpha \in \beta $
+		\item $ \gamma_0 \neq \alpha $: 则$ \gamma \subset \alpha $, 由性质2得$ \gamma \in \alpha $矛盾
+		
+		
+	\end{itemize}
+	
+	
+	
+		证明：为什么集合中存在极小元？良基性
+	
+	证明：数学归纳法
+	
+	\ksec{引理: }{序数运算$ \alpha + \beta $存在}
+	
+	
+	\ksec{引理：}{$ 1+\omega < \omega + 1$}
+	
+	
+	
+	
+\end{document}
