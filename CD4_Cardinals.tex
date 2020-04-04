@@ -1,0 +1,132 @@
+\documentclass[UTF8, 9pt, a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{longtable,caption}
+\usepackage{multicap}
+\usepackage{tabu}
+\usepackage{amsmath}
+\usepackage[left = 15mm, right = 15mm, top = 25mm, bottom= 20mm]{geometry}
+\usepackage{stmaryrd, amssymb}
+\usepackage{comment}
+\usepackage{changepage}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning} % Necessary to use right=5cm of A
+\usetikzlibrary{arrows,automata}
+\newcommand{\ksec}[2]{\noindent \textbf{\large #1} #2\par}
+\newcommand{\ksolve}[1]{\noindent\textbf{\large Solution #1: }\par}
+\newcommand{\arithminus}{\dot{\ \rule[2.5pt]{6pt}{0.5pt}\ }}
+\newcommand{\smallarithminus}{\dot{\rule[1pt]{3pt}{0.5pt}}}
+\newcommand{\absminus}{\dot{\ \rule[2.5pt]{3.8pt}{0.6pt}\ }\!\!\!\!\!\dot{\ \rule[2.5pt]{3.8pt}{0.6pt}\ }}
+\newcommand{\kspace}{\vspace{0.5cm}}
+
+\begin{document}
+	
+	$ \mathcal{O} $是序数集合(Ordinals)，$ \mathcal{C} $代表基数集合(Cardinals)
+	
+	\section{基数}
+	
+	\ksec{定义:}{}
+		$  \alpha \in \mathcal{C} \texttt{ if } \alpha \in \mathcal{O} \land \forall \beta \in \mathcal{O}:\ \beta < \alpha \implies \overset{=}{\beta} < \overset{=}{\alpha} $
+	
+	\ksec{基数与序数的讨论}{}
+	\begin{itemize}
+		\item 有穷上：不同序数必然对应不同序数\\
+			例：1对1，n对n; 故有穷上每个序数都是基数
+		\item 无穷上：不同序数可能对应同一基数\\
+			例：$ \omega, \omega+1 $都对$ \aleph_0 $(易证$ \omega,\omega+1 $等势(cardinality)); 最小的无穷基数是$ \aleph_0 $
+	\end{itemize}
+	
+	\ksec{我对$ \aleph_0, \aleph_1... $的理解}{}
+	$ \aleph_0 = \omega = \{\omega, \omega + 1, \omega + 2, ... ,\omega + n\} $中最小的一个
+	
+	$ \aleph_1 = \omega + \omega = \{ \omega + \omega, \omega + \omega + 1, ..., \omega + \omega + n \}$中最小的一个
+	
+	...
+	
+	\ksec{$\aleph_1$为何存在?}{5:15}
+	定义$ A=\{ \alpha \mid \alpha >\aleph_0 \} $, 存在一个$ \alpha_0 \in A $, 由集合定义，对任意$ \beta < \alpha_0$, $ \beta \leq \aleph_0 \textless \alpha_0 $成立。$ \alpha_0 $即为$ \aleph_1 $. 对一般的$ \kappa $也有$ \kappa^{+} $(即$ \kappa $后面的一个基数)存在
+	
+	\ksec{极限基数与后继基数}{}
+	\begin{itemize}
+		\item Limit Cardinal: $ \forall  $\\
+		例：$ \omega $, 由$ \forall n < \omega: \ n^{+} < \omega $; 又例$ \aleph_\omega, \aleph_{\omega + \omega},... $
+		\item Successor Cardinal: $ \exists \kappa:\ \kappa = \lambda^{+} $\\
+		例：$ \aleph_1, \aleph_2, ... $
+	\end{itemize}
+
+
+	\ksec{并非简单自然数推广：共尾性}{}
+	$$ \texttt{cf}(\kappa) \triangleq \texttt{min}\{ \alpha \mid \exists f: \alpha \rightarrow \kappa :\ \forall \lambda < \kappa:\ \exists \beta < \alpha: f(\beta) > \lambda \} $$
+	
+	注解：$ f $理解为$ \alpha $到$ \kappa $上的无界函数。
+	
+	
+	\textbf{试求\texttt{cf}$ (\aleph_\omega) $}
+	\begin{itemize}
+		\item 定义$ f: \omega \rightarrow \aleph_\omega $为：
+		$$ f(n) = \aleph_n $$
+		
+		由$ f $无界，故$ \texttt{cf}(\aleph_\omega) \leq \omega $
+		
+		\item 假设$ \texttt{cf}(\aleph_\omega) < \omega $, 则存在$ n $使得$ n $到$ \aleph_\omega $的无界映射$ f $存在，不失一般性定义$ f $为：
+		
+		$$ f(i) = \aleph_{g(i)}  \qquad \texttt{其中}g\texttt{为有界函数}$$
+		
+		则$ \forall i < n:\ f(i) < \aleph_{\sum\limits_{j < n}g(j) + 1} < \aleph_\omega $, 与$ f $是无界函数矛盾。
+	\end{itemize}
+
+	因此$ \texttt{cf}(\aleph_\omega) = \omega $
+	
+	\vspace{0.3cm}
+	
+	满足$ \texttt{cf}(\kappa) = \kappa $的$ \kappa $称正则基数。$ \texttt{cf}(\aleph_0) = \omega $故$ \aleph_0 $是正则基数。$ \aleph_\omega $不满足此性质, 称奇异基数。
+	
+	
+	\ksec{良序与良序公理(well-ordering)}{}
+	良序：$$ \begin{array}{ll}
+		\texttt{well-order}(\langle A, \preceq \rangle) \triangleq \texttt{total}(\langle A, \prec \rangle) \land (\forall B \subseteq A:\ B \neq \emptyset \implies \exists b:\ \texttt{min}_\preceq(B, b))\\
+		
+		\texttt{total}(\langle A, \preceq \rangle) \triangleq (\forall x\ y \in A:\ x \preceq y \lor y \preceq x) \\
+		\qquad \qquad \qquad \qquad \land (\forall x\ y \in A:\ x \preceq y \land y \preceq x \implies x = y) \\
+		\qquad \qquad \qquad \qquad \qquad \land (\forall x\ y\ z \in A:\ x \preceq y \land y \preceq z \implies x \preceq z)\\
+		
+		\texttt{min}_\preceq(B, b) \triangleq \forall x \in B:\ b \preceq x
+	\end{array} $$
+	
+	
+	良序公理：$$ \forall A:\ \exists \alpha \in \mathcal{O}:\ \exists f: \alpha \rightarrow A\texttt{是双射} $$
+	
+	注解：序数及其关系是全序且良序，此公理即意为对任何一个集合A，都可以定义A上的一个全且良的关系。
+	
+	\ksec{集合的基数}{}
+	
+	由良序公理能定义任何一个集合$ A $的基数(之前定义的是序数集合上的)
+	$$ |A| = \texttt{min}\{\alpha \mid \overset{=}{\alpha} = \overset{=}{A}\} $$
+	
+	证明$ |A| $是基数：1. 根据良序公理$ |A| $存在. 2. 假设$ |A| $不是基数，则存在$ \beta < |A| $使得$ \overset{=}{\beta} = \overset{=}{A} $成立，故$ |A| \leq \beta $矛盾。
+	
+	例：$ |\mathbb{N}| = |\mathbb{Z}| = |\mathbb{Q}| = \aleph_0$
+	
+	
+	\ksec{漂亮的闭集刻画：完备集定理}{非常重要!!!}
+		$$ \texttt{任何一个不可数闭集都是一个可数集和一个完备集的不交并} $$
+	
+	证明：
+
+	\ksec{利用良序公理计算集合的基数}{}
+	此例题用于阐述如何计算基数：证明任意无穷集合$ A $有 $ |A \times A| = |A| $成立
+	
+	证明：
+	
+	
+	
+	\pagebreak	
+	
+	\ksec{练习：}{}
+	试求\texttt{cf}($ \aleph_1 $). 
+	证明$ \texttt{cf}(\aleph_n) = \aleph_n $, 所有后继基数都是正则基数。
+	
+	
+\end{document}
