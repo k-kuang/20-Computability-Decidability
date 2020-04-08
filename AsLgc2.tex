@@ -1,0 +1,326 @@
+\documentclass[UTF8, 9pt, a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{longtable}
+\usepackage{multicap}
+\usepackage{tabu}
+\usepackage{amsmath}
+\usepackage[left = 15mm, right = 15mm, top = 25mm, bottom= 20mm]{geometry}
+\usepackage{stmaryrd, amssymb}
+\usepackage{comment}
+\usepackage{changepage}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning} % Necessary to use right=5cm of A
+\usetikzlibrary{arrows,automata}
+\newcommand{\ksec}[2]{\noindent \textbf{\large #1} #2\par}
+\newcommand{\ksolve}{\noindent\textbf{\large Solution: }\par}
+\newcommand{\kspace}{\vspace{0.5cm}}
+\usepackage{fancybox}
+
+\begin{document}
+	
+	\ksec{1. }{存在一个闭集A使得$ (A)^{(\omega + 1)} = \emptyset \neq (A)^{(\omega)} $ }
+	按如下步骤定义集合：
+	\begin{itemize}
+		\item $ A_0 \triangleq \{0\} $
+		\item $ A_1 \triangleq \{1,\dfrac{1}{2}, \dfrac{2}{3}, ..., \dfrac{n}{n+1}, ... \} $ (是闭集)
+		\item $ A_2 \triangleq \{2\} \cup (1 + \dfrac{1}{2} \times A_1) \cup (1+\dfrac{1}{2}+ \dfrac{1}{6} \times A_1 )\cup... \cup (1 + \dfrac{n}{n+1} + \dfrac{1}{(n+1)(n+2)} \times A_1) \cup... $ (是闭集)\\
+		......
+		\item $ A_k \triangleq \{n\} \cup \bigcup\limits_{i \in \omega} (k + \dfrac{i}{i+1} + \dfrac{1}{(i+1)(i+2)} \times A_{k-1}) $\\
+		......
+	\end{itemize}
+	定义$ A_\omega \triangleq \bigcup\limits_{\omega}^{} A_i $(是闭集)，$ A_\omega $中有$ \omega^\omega $级的元素。$ A_\omega^{(\omega)} = \emptyset $. 故还需进行一次压缩, 定义$ A $：
+		$$ A = \{ \dfrac{t}{t+1} \mid t \in A \} \cup \{1\} \qquad (\texttt{是闭集})$$  
+		
+	有$ A^{(w)} = \{1\} $, $ A^{(\omega + 1)} = \emptyset $, 故存在闭集A使得题设成立。
+	
+	
+	
+	\vspace{0.5cm}
+	
+	\ksec{2. }{若把$ \overset{=}{A} \leq \overset{=}{B} $定义为存在B到A的满射，则康托伯恩斯坦定理是否依然成立？}
+	
+	成立.\par
+	设$ f: A \rightarrow B, g: B \rightarrow A $均为满射。
+	\begin{itemize}
+		\item 因$ \forall b \in B:\ \exists a\in A:\ f(a) = b $, 不妨构造：$ S_b = \{ a \mid a\in A \land f(a) = b\} $, 易知$ A = \bigcup\limits_{b \in B} S_b  $且$ \forall b_1 \neq b_2:\ S_{b_1} \cap S_{b_2} = \emptyset $. 根据选择公理，存在一个集合$ A' $，对每个$ S_b $，$ A' $包含且仅包含一个$ S_b $中的元素。构造$ f': B \rightarrow A' $, 使得$ \forall b \in B:\ \exists a \in A':\ f'(b) = a$，即$ f' $是一个单射。
+		
+		\item 同理构造$ g' $
+	\end{itemize}
+
+	根据康托伯恩斯坦定理，存在$ A $到$ B $的单射$ g' $和$ B $到$ A $的单射$ f' $，因此存在$ A $到$ B $的双射，证毕。
+	
+	\begin{comment}
+	$ \overset{=}{A} \leq \overset{=}{B} $: if 存在A到B的单射。
+	有穷的情况下必然正确，若两集合数量不一样，总有一边无法达成满射。
+	无穷：f映满B中所有元素，去掉重复映射，仅保留一个, 得到$ f':A' \rightarrow B $。g映满A中所有元素s，同理处理，得到$ g':B' \rightarrow A $. 显然：$ |B| = |B'| = |A| = |A'| $, 且$ g'\ f' $都是双射。
+	单且满为双。
+	\end{comment}	
+	
+	\vspace{0.5cm}
+	
+	\ksec{3. }{若$ \alpha, \beta $是序数，且$ f: \alpha \rightarrow \beta $是保序双射(同构), 则$ \alpha = \beta $且$ f $是恒等映射}
+	
+	\ksolve
+	不妨定义：$ g = f^{-1} $，易知$ g $也是保序双射
+	\begin{itemize}
+		\item 证明子命题1：$ \forall a \in \alpha:\ a \subseteq f(a) $.\par
+		
+		定义$ T = \{ t \mid f(t) \in t \} $, 反设$ T \neq \emptyset $. 由良序公理，T中有极小元$ t_0 $. \par
+		
+		由$t_0 \in t$，故$ f(t_0) \in t_0 $。设$ t_0' = f(t_0) $, 由$ f $保序且一一且$ t_0' \in t_0 $, 有$ f(t_0') \subset f(t_0) $, 由序数性质知$ f(t_0') \in f(t_0) $，即$ f(t_0') \in t_0' $, 故$ t_0' \in T $. 与$ t_0 $是极小元矛盾。故子命题成立。\par
+		同理可证子命题2：$ \forall b \in \beta:\ b \subseteq g(b)  $
+		
+		
+		\item 证$ \alpha = \beta $. 反设$ \alpha \neq \beta $, 则$ \alpha \in \beta $或$ \beta \in \alpha $, 不妨假设$ \beta \in \alpha $.\par
+		由$ \beta \in \alpha $, 知$ \exists \gamma:\ \gamma\in \alpha \land \gamma \notin \beta $. 由三歧性即$ \gamma = \beta \lor \gamma \in \beta $。又因$ f(\gamma) \in \beta $，得$ f(\gamma) \in \gamma $. 与子命题矛盾。\par
+		同理可证$ \alpha \in \beta $的情况有矛盾。故$ \alpha = \beta $.
+		
+		\item 证$ f $恒等\par
+		假设$ f $不恒等，即$ \exists a:\ f(a) \neq a $, 由三歧性有$ f(a) \in a $或$ a \in f(a) $
+		\begin{itemize}
+			\item $ f(a) \in a $: 与子命题1矛盾
+			\item $ a \in f(a) $: 设$ f(a) = b $, 则$ g(b) \in b $与子命题2矛盾
+		\end{itemize}
+		故$ \forall a: f(a) = a $, f是恒等映射。
+	\end{itemize}
+	
+	
+	
+	
+	
+	
+
+	(保序：$ f: S \rightarrow T $, $ \forall s_1\ s_2 \in S:\ s_1 \subseteq  s_2 \implies f(s_1) \subseteq f(s_2)\ $
+	
+	\kspace
+	
+	\begin{comment}
+		
+	
+	暂时将“序”使用$ \leq, \geq $符号\\
+	$ \forall x \ y\in \alpha:\ x \leq y \implies f(x) \leq f(y) $\\
+	$ \forall x \ y\in \beta:\ x \leq y \implies f^{-1}(x) \leq f^{-1}(y) $\\
+	
+	考虑1,2 -> 3,4, 利用序数的性质证明$ \forall x\ y\in \alpha:\ f(x) = x $, 反证？能推出什么矛盾？
+	
+	$ \forall x \in \alpha:\ x \in \beta $\\
+	$ \forall x \in \beta:\ x \in \alpha $\\
+	$ \alpha \subseteq \beta \land \beta \subseteq \alpha $\\
+	$ \forall a \in \texttt{dom}(f):\ f(a) = a $，由恒等映射的性质，其是双射。\\
+	
+	\end{comment}
+	
+	
+	\vspace{0.5cm}
+	
+	\ksec{4. }{任何一个实数集合都是一个可数集与一个无孤立点集的不交并}
+%	$ \overset{=}{A}  \leq \aleph_1 $，
+	
+	设$ A \subseteq \mathbb{R} $为实数集合，记$ A^{(k)} $为$ A $第$ k $次求导的结果。
+	
+	\begin{itemize}
+		\item $ \exists \alpha: \forall \alpha > \gamma: A^{(\alpha)} = (A^{(\alpha)})' = A^{(\gamma)}$\\
+		证：
+		\begin{itemize}
+			\item $\gamma$存在：每求一次导必然去掉至少一个有理数对$ (p, q) $, 且对任意$ x \neq y $且$ x\ y $为孤立点，有理数对不相交(否则与$ x \neq y $矛盾)，故$ (p_x, q_x) \neq (p_y,q_y) $. 由此$ \alpha < \aleph_1 $(否则与$ \overset{=}{\mathbb{Q}} = \aleph_0 $矛盾)。
+			\item 证明对所有$ \alpha' > \alpha $成立:\\
+			若$ \alpha $是后继序数，则存在$ \beta \geq \alpha$, $ A^{(\alpha)} = A^{(\beta + 1)} $, 由归纳假设知$ A^{(\alpha)} = (A^{(\beta)})' = (A^{(\gamma)})' = A^{(\gamma)} $\\
+			若$ \alpha' $是极限序数, 则$ A^{(\alpha)} = \bigcup_{\beta < \gamma} A^{(\beta)} = \bigcup_{\gamma \leq \beta < \alpha} A^{(\beta)}$。由归纳假设知满足条件的$ A^{(\beta)} = A^{(\gamma)} $，故$ A^{(\alpha)} = A^{(\gamma)} $
+		\end{itemize}
+		$ A^{(\gamma)} $是无孤立点集(否则与$ A^{(\gamma)} = A^{(\gamma + 1)} $矛盾)
+		
+		
+		\item $ B_\alpha = \{ x \mid x \in A^{\alpha} \land x \notin A^{(\alpha + 1)} \} $, $ \bigcup\limits_{\alpha < \gamma} B_\gamma  $是可数集。\\
+		证：定义$ C_\alpha = \{ (p, q) \mid x\texttt{是}A^\alpha\texttt{中的孤立点且}(p,q) \cap A^\alpha = \{ x\} \} $. 可建立$ \bigcup\limits_{\alpha < \gamma} B_\alpha  $到$\bigcup\limits_{\alpha < \gamma} C_\alpha  $上的双射, 由因为$ \bigcup\limits_{\alpha < \gamma} C_\alpha $的势小于等于$ \mathbb{Q} \times \mathbb{Q} $的势，故$ \bigcup\limits_{\alpha < \gamma} B_\alpha  $可数。
+		
+		\item 而$ A = (\bigcup\limits_{\alpha < \gamma} B_\alpha) \uplus A^{(\gamma)}$, 其中前者是可数集，后者是无孤立点集。证毕
+	\end{itemize}
+	\begin{comment}
+	记$ T = \{x \mid x \in A \land x\texttt{是}A\texttt{中的孤立点}\} $
+	
+	
+	
+	分情况讨论证明如下：
+	不是闭集，也不是开集的集合。$ [5, 6) \cup \{3\} $不是闭集，有孤立点。
+	\begin{itemize}
+		\item 对不可数且是闭集的实数集合S，由完备集定理知其是一个可数集与一个完备集的不交并，完备集属于无孤立点集合，故命题成立
+		\item 对不可数且非闭集的实数集合S，开集本身没有孤立点，$ S = \emptyset \cup S $, S无孤立点集，$ \emptyset $可数，故命题成立
+		\item 对可数实数集合$ S $：$ S = S \cup \emptyset $, S可数，$\emptyset$无孤立点，故命题成立
+	\end{itemize}
+	综上所述，命题成立
+	\end{comment}
+	
+	\vspace{0.5cm}
+	
+	\ksec{5. }{证明良序公理等价于对每个集合$ X $，存在一个函数$ f: \mathcal{P}(X) \rightarrow X $, 使得对所有的$ Y \subseteq X $, $ Y \neq \emptyset \implies f(Y) \in Y$}
+	\ksolve
+	
+	良序公理：
+		$$ \forall S:\ \forall T \subseteq  S:\exists t \in T :\ \forall t'\in T:\ t \subseteq t' $$
+	
+	选择函数公理：
+		$$ \forall S:\ \exists f: \mathcal{P}(S) \rightarrow S:\ \forall T \subseteq S:\ T \neq \emptyset \implies P(T) \in T $$
+	
+	\begin{itemize}
+		\item 良序公理 $\rightarrow$ 选择函数公理：
+		$ \forall Y \in \mathcal{P}(X)$且$\ Y \neq \emptyset $，由良序公理可从中选出其极小元y。定义$ f: \mathcal{P}(X) \rightarrow X $，$ \forall Y \in \texttt{dom}(f) \land Y \neq \emptyset$, $ f(Y) \texttt{等于Y中的极小元}$. $ f $是符合条件的选择函数。
+		
+		\item 选择函数公理 $ \rightarrow $ 良序公理：
+			只需找到某个序数$ \alpha $, 建立$ \alpha $到$ X $的一一映射即可。即将$ \alpha_0, \alpha_1, ..., \alpha_n, .... \in \alpha $一一映到$ X $上, 定义G如下：
+			
+			$$ \begin{array}{ll}
+				G(\alpha_0) = f(X) \\
+				G(\alpha_1) = f(X \setminus \{ G(\alpha_0)\}) \\
+				G(\alpha_2) = f(X \setminus \{ G(\alpha_0), G(\alpha_1) \}) \\
+				......\\
+				G(\alpha_k) = f(X \setminus \{ G(\alpha_i) \mid \alpha_i \in \alpha_k \}) \\
+				......
+			\end{array}$$
+		由$ \forall Y:\ f(Y) \in Y $, $ G $最终会将序数列与X建立一一映射，因此知X是良序的。
+		
+		
+		\begin{comment}
+		$$\begin{array}{l}
+			\texttt{对}X: \exists (f_0 \in \mathcal{P}(X) \rightarrow X) :\ \forall Y \subseteq X:\ Y \neq \emptyset \implies f_0(Y) \in Y\\
+			\texttt{对}\mathcal{P}(X): \exists (f_1 \in \mathcal{P}(\mathcal{P}(X)) \rightarrow \mathcal{P}(X)) :\ \forall Y \subseteq \mathcal{P}(X):\ Y \neq \emptyset \implies f_1(Y) \in Y\\
+			\texttt{对}\mathcal{P}(X): ......\\
+			\texttt{对}\mathcal{P_\omega}(X): \exists (f_\omega \in \mathcal{P_{\omega}^1} (X) \rightarrow \mathcal{P}_\omega(X)) :\ \forall Y \subseteq \mathcal{P}_\omega(X):\ Y \neq \emptyset \implies f_\omega(Y) \in Y\\
+			......
+		\end{array}
+		$$
+		定义$ f: \mathcal{P}_\omega(X) \rightarrow X $
+		$$ f = f_0 \circ f_1 \circ ... \circ f_\omega $$
+		
+		从\texttt{dom}($ f $)中取一个Y使得$ \forall y\in Y:\ y \texttt{ is ordinal} \land \forall y' \notin Y:\ y' \texttt{ is not ordinal} $, 由命题知$ \forall y \in Y:\ f(Y) \in Y $
+		$ f' $为限制定义域为$ Y $的f， 
+		证明$ f' $是一个双射。
+		\end{comment}
+		
+		
+	\end{itemize}
+	综上所述，二者等价。
+	
+	\vspace{0.5cm}
+
+	\ksec{6. }{每个不可数的$ G_\delta $实数集都有一个非空的完备子集}
+	某不可数$ G_\delta $集$ A $描述如下
+		$$ A = \bigcap\limits_{n \in \omega} U_n \qquad \texttt{其中}U_i\texttt{为开集}$$
+		
+	\indent \ksec{a. 构造实数集[0,1]到$ A $的子集$ D $的映射$ h $}{}
+	由第四题结论，$ A $可以表达为：
+		$$ A = B \cup C \qquad \texttt{其中}B\texttt{是可数集，}C\texttt{为无孤立点集}$$
+		
+	$ C $不空(因$ A $不可数且$ B $可数)且$ C \subseteq \bigcap\limits_{n \in \omega} U_n $
+	
+	故其中至少有一点$ x_0 $，因此可以找到某个区间$L \subseteq U_0$(不妨令$ |L| < 1 $)使得
+		$$ x_0 \in C \cap L $$
+
+	由$ C $无孤立点，故必存在$ x_1 \neq x_0$使得$$ x_1 \in C \cap L $$
+	
+	知闭区间$ I = [x_0, x_1] \subseteq L $。将$ x_0, x_1 $分开，分别用区间$ L_0, L_1 $(不妨令$ |L_0|, |L_1| < \dfrac{1}{2} $)包含之即
+	 $$ x_0 \in L_0 \land x_1 \in L_1 \land L_0 \cap L_1 = \emptyset $$
+	
+	同理可在$ L_0 $中找到除$ x_0 $外的一点$ x_{01} $, $ L_1 $中除$ x_1 $外一点$ x_{11} $, (为方便记名，上一层的点$ x_0 $更名为$ x_{00} $, $ x_1 $更名为$ x_{10} $, 每下一层，末尾加一个0) 继续分割下去......下图描述了这一过程，同一层集族中的集合互不相交：\\
+	
+	\begin{tikzpicture}[level/.style={sibling distance=80mm/#1}]
+	\node [] (z){$I = [x_0 , x_1 ]$}
+	child {node [] (a) {$I_0 = [x_{00}, x_{01}] $}
+		child {node [] (b) {$ I_{00} = [x_{000} , x_{001}] $}
+			child {node {$\dots$}}
+			child {node {$\dots$}}
+		}
+		child {node [] (g) {$ I_{01} = [x_{010} , x_{011} ] $}
+			child {node {$\dots$}}
+			child {node {$\dots$}}
+		}
+	}
+	child {node [] (j) {$I_1 = [x_{10}, x_{11}]$}
+		child {node [] (k) {$ I_{10} = [x_{100} , x_{101} ] $}
+			child {node {$\dots$}}
+			child {node {$\dots$}}
+		}
+		child {node [] (l) {$ I_{11} = [ x_{110} , x_{111} ]$}
+			child {node {$\dots$}}
+			child {node {$\dots$}{
+				child [grow=right] {node (q) {$ ... $} edge from parent[draw=none]
+						child [grow=up] {node {$\dfrac{1}{4}$} edge from parent[draw=none]
+							child [grow=up] {node (s) {$\dfrac{1}{2}$} edge from parent[draw=none]
+								child [grow=up] {node (t) {$1$} edge from parent[draw=none]}}
+						}
+					}
+				}
+			}
+		}};
+	\end{tikzpicture}
+	
+	定义映射$ f:Z \rightarrow C $, 其中
+		$$ f(z) = x_z $$
+	\begin{itemize}
+		\item 定义$ Z $:长度是可数无穷多的01字符串构成的集合($ Z = \{0,1\}^\omega $)
+		\item 定义$ x_z $: 由$ \{ I_{z \upharpoonright n}\}$ \footnote{ $ I_{z\upharpoonright n} $: 设字符串$ z $截取前n位为$ z' $, 则$ I_{z \upharpoonright n} = I_{z'} $. 例如$ I_{ 0011 \upharpoonright 3} = I_{001} $} $ \ (n \in \omega) $是一个区间套，根据区间套定理，在实数系中存在唯一的点$ x_z $使得$ x_z \in I_{z \upharpoonright n} $
+	\end{itemize}
+	
+%	$ \forall z \in Z:\ I_z \in \bigcap\limits_{n \in \omega} U_n$
+%		 \qquad (x_z \in \bigcap\limits_{n \in \omega} I_{z \upharpoonright n}) 
+	易知$ f $为单射(若$ z_0 \neq z_1 $则$ f(z_0) \neq f(z_1)$), 由$ f $定义知其为是满射。
+	记$ D = \texttt{range}(f) $。
+	
+	定义$ g :[0,1] \rightarrow Z $, $ g(x) $为实数$ x $的二进制表示，易知$ g $是$ [0,1] $到$ Z $的同构。
+	
+	定义$ h = f \circ g $。
+
+	\vspace{1cm}
+
+	\indent \ksec{b. 证明$ h $是连续双射}{}
+	因$ f, g $为双射，故$ h: [0,1] \rightarrow D $为双射
+	
+	任取$ y_1, y_2 \in [0,1] $, 对任意$ \xi > 0 $, 取$ \delta = 2^{ \lfloor \texttt{log}_2\xi \rfloor} $有：
+	$$ |y_1 - y_2| \textless \delta \implies |h(y_1) - h(y_2)| \textless \xi $$
+	
+	故$ h $为$ [0,1] $上的连续函数。同理可证$ h^{-1} $为$ D $上的连续函数。
+
+	\indent \ksec{c. 证明$ D $是完备集}{}
+	
+	\begin{itemize}
+		\item $ D $无孤立点：任取$ D $中元素$ y $，在$ [0,1] $中取收敛于$ h^{-1}(y) $的数列$ \{x_n\} $, 因$ h $连续, 故$ \lim\limits_{n \rightarrow \infty} h(x_n) = y $, 故$ y $是$ D $中聚点。
+		
+		\item $ D $是闭集：对任意$ D $中的柯西列$ \{ y_n \} $, 由$ h $连续知$ \{h^{-1}(y_n)\} $也是柯西列，记$ \lim\limits_{n \rightarrow \infty}h^{-1}(y_n) = x_0 $, 因$ [0,1] $是闭集，故$ x_0 \in [0,1] $,因此$ h(x_0) $有定义且序列$\{y_n\} \rightarrow h(x_0) $, $ h(x_0) \in D $。因此$ D $内所有聚点都在$ D $中，故$ D $为闭集。
+	\end{itemize}
+	
+	
+	综上所述，$ D $不可数且完备，故任意不可数的$ G_\delta $实数集$ A $都有一非空完备子集。
+	
+	
+	\begin{comment}
+	
+	只需证：每个不可数$ G_\delta $实数集都有一个uncountable close subset
+		$$ G = \bigcap\limits_{i \in \omega }O_i $$
+		
+	只需证存在A，$ A \in G $且$ A \texttt{是闭集}$且$ A \texttt{不可数}$。
+	
+	$ G \texttt{不可数}$ 且 $ O_i \supset G $, 故$ O_i\texttt{不可数} $。
+	\vspace{0.5cm}
+	\end{comment}
+
+
+\begin{comment}
+	\ksec{附加练习: }{任给一个集合$ A $，其群有多少个}
+	\ksec{附加练习: }{$ c([0, 1])=\{f \mid [0,1] \rightarrow \mathbb{P} \land f\texttt{连续}\} $，求$ |c| $}
+	\ksec{arg1}{为何$ \kappa^\kappa\subseteq \mathcal{P}(\kappa \times \kappa) $}
+	有理数是全序而不是良序。
+	
+
+
+	\begin{itemize}
+		\item $ 2^\omega $
+		\item borel sets
+		\item perfect set proporty
+		
+	\end{itemize}	
+\end{comment}
+	
+
+\end{document}
