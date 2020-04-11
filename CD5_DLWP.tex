@@ -1,0 +1,77 @@
+\documentclass[UTF8, 9pt, a4paper]{ctexart}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{longtable,caption}
+\usepackage{multicap}
+\usepackage{tabu}
+\usepackage{amsmath}
+\usepackage[left = 15mm, right = 15mm, top = 25mm, bottom= 20mm]{geometry}
+\usepackage{stmaryrd, amssymb}
+\usepackage{comment}
+\usepackage{changepage}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{positioning} % Necessary to use right=5cm of A
+\usetikzlibrary{arrows,automata}
+\newcommand{\ksec}[2]{\noindent \textbf{\large #1} #2\par}
+\newcommand{\ksolve}[1]{\noindent\textbf{\large Solution #1: }\par}
+\newcommand{\arithminus}{\dot{\ \rule[2.5pt]{6pt}{0.5pt}\ }}
+\newcommand{\smallarithminus}{\dot{\rule[1pt]{3pt}{0.5pt}}}
+\newcommand{\absminus}{\dot{\ \rule[2.5pt]{3.8pt}{0.6pt}\ }\!\!\!\!\!\dot{\ \rule[2.5pt]{3.8pt}{0.6pt}\ }}
+\newcommand{\kspace}{\vspace{0.5cm}}
+
+\begin{document}
+	
+	\section*{稠密无端点全序}
+	
+	\ksec{定义}{\texttt{DLWP}理论包括如下语句：}
+	\begin{itemize}
+		\item $ \forall x:\ \lnot (x \textless x) $
+		\item $ \forall x\ y:\ x \textless y \lor y \textless x \lor x = y$	
+		\item $ \forall x\ y\ z:\ x < y \land y < z \implies x < z $
+		\item $ \forall x \ y: \exists z:\ x < y \implies x < z < y $
+		\item $ \forall x\ \exists y\ z:\ y < x < z $
+	\end{itemize}
+	注：前三条件代表全序
+	
+	\ksec{\texttt{DLWP}模型举例}{}
+		是$ (\mathbb{Q}, \textless), (\mathbb{R}, \textless), ((0, 1), \textless) $
+		
+		非$ (\mathbb{N}, \textless), ({(0, 1]}, \textless) $
+		
+	
+	\ksec{定理：所有满足\texttt{DLWP}且可数的模型都是同构的}{}
+	证明(back and forth)：
+	不妨设两个满足题设的模型$ \mathcal{M}\ \mathcal{N} $, 由于二者可数，其定义域枚举如下：
+		$$
+		\begin{array}{l}
+			M: m_1, ...., m_k, ...\\
+			N: n_1, ...., n_l, ...\\
+		\end{array}
+		$$
+		
+	定义$ f: M \rightarrow N$
+		\begin{itemize}
+			\item 第一步：$ f(m_1) = n_1 $
+			\item k+1步：
+				\begin{itemize}
+					\item 若$ m_{k+1} \in \texttt{dom}(f) $, 跳过此小步; 否则：将已定义原像按序枚举为$  m_{i1} \textless m_{i2} \textless ...\textless m_{ix}  $，对应映射值 $ f(m_{i1}), f(m_{i2}), ..., f(m_{ix}) $，因我们之前定义的方式是保序的，故$ f(m_{i1}) \textless f(m_{i2}) \textless ... \textless f(m_{ix}) $;若：
+					\begin{itemize}
+						\item $ m_{k+1} > m_{ix}$: 由$ \mathcal{N} \models \texttt{DLWP} $，故存在$ z \in N $使得$ f(m_{ix}) < z $成立，定义$ f(m_i) = z $
+						\item $ m_{k+1} < m_{i1} $: 同理存在$ y \in N $使得$ f(m_{i1}) > y $成立，定义$ f(m_i) = y $
+						\item $ m_{i(j)} < m_{k+1} < m_{i(j+1)} $, 则存在$ z \in N $使得$ f(m_{i(j)}) < z < f(m_{i(j+1)}) $, 定义$ f(m_i) = z $
+					\end{itemize}
+				
+					\item 同理再看$ n_{k+1} $, 不属于$ \texttt{range}(f) $跳至下一步，否则：将已定义像按序枚举为$ n_{i1}, n_{i2}, ..., n_{ix} $, 对应逆映射值$ f^{-1}(n_{i1}), f^{-1}(n_{i2}), ..., f^{-1}(n_{iy}) $，有$ f^{-1}(n_{i1}) < f^{-1}(n_{i2}) < ... < f^{-1}(n_{iy}) $. 若：
+					\begin{itemize}
+						\item $ n_{k+1} > n_{iy}$: 由$ \mathcal{M} \models$\texttt{DLWP}，故存在$ z \in M $使得$ f^{-1}(n_{ix}) < z $成立，定义$ f(z) = n_{k+1} $
+						\item $ n_{k+1} < n_{i1} $: 同理存在$ y \in M $使得$ f(n_{i1}) > z $成立，定义$ f(z) = n_{k+1}  $
+						\item $ n_{i(j)} < n_{k+1} < n_{i(j+1)} $, 则存在$ z \in M $使得$ f^{-1}(n_{i(j)}) < z < f^{-1}(n_{i(j+1)}) $, 定义$ f(z) = n_{k+1} $
+					\end{itemize}
+				\end{itemize}
+		\end{itemize}
+	
+	由定义知$ f $是保序双射，故$ \mathcal{M} \cong \mathcal{N} $
+	
+\end{document}
